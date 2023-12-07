@@ -22,7 +22,7 @@ const Navbar = () => {
           <span className="flex items-center gap-2 px-4 rounded border">
             <GoSearch className="text-yellow-400 text-2xl" />
             <input
-              onChange={handleSearch}
+              onChange={(e) => handleSearch(e)}
               className="p-2 w-full focus:outline-none"
               type="text"
               placeholder="Search. . ."

@@ -4,6 +4,7 @@ const initialState = {
   cardProducts: [],
   showCheckOut: false,
   showSearchResults: false,
+  searchKey: "",
 };
 
 const addToCardSlice = createSlice({
