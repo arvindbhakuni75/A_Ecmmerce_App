@@ -1,10 +1,7 @@
 import React from "react";
-import AllProducts from "./pages/AllProducts";
-import ProductDetail from "./components/ProductDetail";
+import { AllProducts, ProductDetail } from "./pages";
 import { Routes, Route } from "react-router-dom";
-import { Navbar } from "./components";
-import CheckOut from "./pages/CheckOut";
-import SearchResult from "./pages/SearchResult";
+import { Navbar, CheckOut, SearchResult } from "./components";
 
 function App() {
   return (

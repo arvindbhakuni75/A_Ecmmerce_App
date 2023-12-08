@@ -1,15 +1,14 @@
 import React from 'react';
-import Card from '../components/Card';
+import { Card } from '../components';
 import useFetchUrl from '../hooks/useFetchUrl';
-import { CardSkeleton } from '../components';
-
+import { CardSkeleton } from '../snippets';
 
 const AllProducts = () => {
 
-    const { data, loading, error } = useFetchUrl(process.env.REACT_APP_BASE_URL);
+    const { data, loading, error } = useFetchUrl();
 
   if(error) {
-    return <h2>{error}</h2>
+    return <h2 className="text-2xl text-rose-500">{error}</h2>
   }
 
   if(loading) {

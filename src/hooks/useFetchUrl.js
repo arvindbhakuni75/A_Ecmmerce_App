@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const useFetchUrl = (url) => {
+const useFetchUrl = (url = "") => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const useFetchUrl = (url) => {
     useEffect(() => {
         const fetchUrl = async () => {
             try {
-                const responce = await axios.get(url);
+                const responce = await axios.get(process.env.REACT_APP_BASE_URL + url);
                 setData(responce?.data)
             } catch (error) {
                 setError(error.message)
@@ -25,4 +25,4 @@ const useFetchUrl = (url) => {
   return { data, loading, error }
 }
 
-export default useFetchUrl
+export default useFetchUrl;

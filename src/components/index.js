@@ -1,6 +1,7 @@
-
-import { CardSkeleton, DetailCardSkeleton } from "../skeletons/SkeletonLoader";
+import Card from "./Card";
 import Navbar from "./Navbar";
+import CheckOut from "./CheckOut";
+import SearchResult from "./SearchResult";
 
 
-export { CardSkeleton, DetailCardSkeleton, Navbar }
+export { Card, CheckOut, Navbar, SearchResult }

@@ -1,18 +1,33 @@
-import React from "react";
+import { useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { FaUserAlt } from "react-icons/fa";
 import { RiShoppingCart2Fill } from "react-icons/ri";
 import { MdFilterAlt } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleCheckOut, toggleSearchResult } from "../store/addToCardSlice";
+import {
+  toggleCheckOut,
+  toggleSearchResult,
+  setSearchKey,
+} from "../store/addToCardSlice";
+import { DropDown, Input } from "../snippets";
 
 const Navbar = () => {
   const cardItems = useSelector((state) => state.addToCardSlice.cardProducts);
+  const inputSearch = useSelector((state) => state.addToCardSlice.searchKey);
   const dispatch = useDispatch();
 
-  const handleSearch = () => {
+  const handleSearchInput = (e) => {
     dispatch(toggleSearchResult(true));
-  }
+    dispatch(setSearchKey(e.target.value));
+  };
+
+  //
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  //
 
   return (
     <>
@@ -21,8 +36,9 @@ const Navbar = () => {
         <div className="w-1/3">
           <span className="flex items-center gap-2 px-4 rounded border">
             <GoSearch className="text-yellow-400 text-2xl" />
-            <input
-              onChange={(e) => handleSearch(e)}
+            <Input
+              value={inputSearch}
+              onChange={(e) => handleSearchInput(e)}
               className="p-2 w-full focus:outline-none"
               type="text"
               placeholder="Search. . ."
@@ -31,9 +47,17 @@ const Navbar = () => {
         </div>
         <div className="flex items-center gap-6">
           <FaUserAlt className="text-xl text-yellow-400" />
-          <MdFilterAlt className="text-2xl text-yellow-400" />
+          <MdFilterAlt
+            onClick={toggleDropdown}
+            className="text-2xl text-yellow-400 relative inline-block"
+          />
+
+          {isOpen && <DropDown setIsOpen={setIsOpen} />}
+
           <span
-            onClick={() => {dispatch(toggleCheckOut(true))}}
+            onClick={() => {
+              dispatch(toggleCheckOut(true));
+            }}
             className="relative cursor-pointer"
           >
             <RiShoppingCart2Fill className="text-2xl text-yellow-400" />

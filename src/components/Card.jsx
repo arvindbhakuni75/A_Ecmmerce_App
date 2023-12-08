@@ -1,23 +1,21 @@
-import React from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCard } from "../store/addToCardSlice";
-import useFetchUrl from "../hooks/useFetchUrl";
+import { Button, Image } from "../snippets";
 
 const Card = ({data}) => {
 
   const { id, image, title, price, description } = data
 
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-
-  
+  const dispatch = useDispatch();
 
   return (
     <div className="w-[300px] flex flex-col justify-between border border-gray-300 shadow-2xl rounded-lg    p-4 h-[420px] bg-white">
       <Link to={`/product/${id}`}>
         <div className="w-full">
-          <img
+          <Image
             className="rounded w-full h-[200px]"
             src={image}
             alt="image"
@@ -37,12 +35,17 @@ const Card = ({data}) => {
         </div>
       </Link>
       <div className="w-full flex justify-between items-center">
-        <button onClick={() => navigate(`/product/${id}`)} className="bg-transparent py-2 px-4 text-black border  rounded">
-          View Details
-        </button>
-        <button onClick={() => dispatch(addToCard({data}))} className="bg-yellow-500 py-2 px-4 text-white rounded">
+        <Button 
+          onClick={() => navigate(`/product/${id}`)} 
+          className="bg-transparent py-2 px-4 text-black border  rounded">
+            View Details
+        </Button>
+        <Button 
+          onClick={() => dispatch(addToCard({data}))} 
+          className="bg-yellow-500 py-2 px-4 text-white rounded"
+        >
           Add To Card
-        </button>
+        </Button>
       </div>
     </div>
   );

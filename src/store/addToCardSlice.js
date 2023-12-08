@@ -24,11 +24,14 @@ const addToCardSlice = createSlice({
     },
     toggleSearchResult: (state, action) => {
       state.showSearchResults = action.payload;
-    }
+    },
+    setSearchKey: (state, action) => {
+      state.searchKey = action.payload;
+    },
   },
 });
 
-export const { addToCard, removeFromCard, toggleCheckOut, toggleSearchResult } =
+export const { addToCard, removeFromCard, toggleCheckOut, toggleSearchResult, setSearchKey } =
   addToCardSlice.actions;
 
 export default addToCardSlice.reducer;
