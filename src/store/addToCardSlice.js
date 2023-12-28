@@ -5,6 +5,7 @@ const initialState = {
   showCheckOut: false,
   showSearchResults: false,
   searchKey: "",
+  filterData: "",
 };
 
 const addToCardSlice = createSlice({
@@ -28,10 +29,13 @@ const addToCardSlice = createSlice({
     setSearchKey: (state, action) => {
       state.searchKey = action.payload;
     },
+    filterByCategory: (state, action) => {
+      state.filterData = action.payload;
+    }
   },
 });
 
-export const { addToCard, removeFromCard, toggleCheckOut, toggleSearchResult, setSearchKey } =
+export const { addToCard, removeFromCard, toggleCheckOut, toggleSearchResult, setSearchKey, filterByCategory } =
   addToCardSlice.actions;
 
 export default addToCardSlice.reducer;

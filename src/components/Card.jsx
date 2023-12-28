@@ -1,8 +1,9 @@
-
+import { useCallback, memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCard } from "../store/addToCardSlice";
 import { Button, Image } from "../snippets";
+import toast from "react-hot-toast";
 
 const Card = ({data}) => {
 
@@ -10,6 +11,17 @@ const Card = ({data}) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cardData = useSelector( state => state.addToCardSlice.cardProducts);
+
+  const handleAddToCard = useCallback(() => {
+    if(!(cardData.map(item => item.id).includes(data.id))) {
+      dispatch(addToCard({ data }))
+      toast.success('added successfully!')  
+    } else {
+      toast.error("already added!")
+    } 
+  }, [cardData, data, dispatch]);
+
 
   return (
     <div className="w-[300px] flex flex-col justify-between border border-gray-300 shadow-2xl rounded-lg    p-4 h-[420px] bg-white">
@@ -41,7 +53,7 @@ const Card = ({data}) => {
             View Details
         </Button>
         <Button 
-          onClick={() => dispatch(addToCard({data}))} 
+          onClick={handleAddToCard} 
           className="bg-yellow-500 py-2 px-4 text-white rounded"
         >
           Add To Card
@@ -51,4 +63,4 @@ const Card = ({data}) => {
   );
 };
 
-export default Card;
+export default memo(Card);

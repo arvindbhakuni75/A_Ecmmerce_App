@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { toggleSearchResult, setSearchKey } from "../store/addToCardSlice";
@@ -13,12 +13,11 @@ const SearchResult = () => {
   );
   const inputSearch = useSelector(state => state.addToCardSlice.searchKey);
   const dispatch = useDispatch();
-  console.log(showResults);
 
-  const handleCloseSearch = () => {
+  const handleCloseSearch = useCallback(() => {
     dispatch(toggleSearchResult(false));
     dispatch(setSearchKey(""));
-  };
+  }, [dispatch]);
 
   const { data } = useFetchUrl();
 
@@ -30,7 +29,12 @@ const SearchResult = () => {
     } else {
       setSearchResults(null)
     } 
-  }, [inputSearch, data])
+
+    if(inputSearch?.length < 1) {
+      dispatch(toggleSearchResult(false));
+    }
+
+  }, [inputSearch, data, dispatch])
 
   const handleSearchItem = (id) => {
     dispatch(toggleSearchResult(false));
@@ -38,7 +42,6 @@ const SearchResult = () => {
     navigate(`/product/${id}`);
   }
   
-
   return (
     <div
       className={`w-full h-full fixed flex justify-center bg-gray-500 bg-opacity-50 ${
@@ -84,4 +87,4 @@ const SearchResult = () => {
   );
 };
 
-export default SearchResult;
+export default memo(SearchResult);

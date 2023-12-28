@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleCheckOut, removeFromCard } from "../store/addToCardSlice";
 import { Link, useNavigate } from "react-router-dom";
+import trolley from '../assets/emptyTrolley.png';
 
 const CheckOut = () => {
   const show = useSelector((state) => state.addToCardSlice.showCheckOut);
@@ -19,7 +20,6 @@ const CheckOut = () => {
     navigate(`/product/${id}`);
     dispatch(toggleCheckOut(false));
   };
-
 
   return (
     <div className={`relative z-10 ${show ? "" : "hidden"} `}>
@@ -67,6 +67,11 @@ const CheckOut = () => {
               <div className="mt-8">
                 <div className="flow-root">
                   <ul className="my-6 divide-y divide-gray-200">
+                  { (cardItems?.length < 1) && (
+                      <div className="flex items-center justify-center">
+                        <img src={trolley} alt="trolley" className="w-[250px] h-[250px]" />
+                      </div>
+                    ) }
                     {cardItems?.map((item, index) => (
                       <li key={index} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md">
