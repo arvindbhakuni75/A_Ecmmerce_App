@@ -9,28 +9,36 @@ import {
   toggleSearchResult,
   setSearchKey,
 } from "../store/addToCardSlice";
-import { DropDown, Input, Tooltip } from "../snippets";
+import { DropDown, Input, Tooltip, Image } from "../snippets";
 import { Link } from "react-router-dom";
+import ProfileDropDown from "../snippets/ProfileDropDown";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const Navbar = () => {
-  const cardItems = useSelector((state) => state.addToCardSlice.cardProducts);
-  const inputSearch = useSelector((state) => state.addToCardSlice.searchKey);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const cardItems = useSelector( state => state.addToCardSlice.cardProducts);
+  const inputSearch = useSelector( state => state.addToCardSlice.searchKey);
   const dispatch = useDispatch();
+  const { user } = useAuth0();
+  console.log({user})
 
   const handleSearchInput = (e) => {
     dispatch(toggleSearchResult(true));
     dispatch(setSearchKey(e.target.value));
   };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  
+  const toggleFilterDropdown = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+  const toggleProfileDropdown = () => {
+    setIsProfileOpen(!isProfileOpen);
   };
 
   return (
     <>
-      <div className="w-full px-6 md:px-10 h-[70px] border-b sticky top-0 bg-white flex justify-between items-center border-gray-200 ">
+      <div className="w-full px-6 md:px-10 h-[70px] border-b sticky top-0 bg-white flex justify-between items-center border-gray-200">
         <h2 className="text-2xl text-yellow-500">
           <Link to='/' >
             <Tooltip message={"Home"}>Home</Tooltip>
@@ -49,18 +57,26 @@ const Navbar = () => {
           </span>
         </div>
         <div className="flex items-center gap-6">
-          <Tooltip message={"Profile"}>
-            <FaUserAlt className="text-xl text-yellow-400" />
+            <span onClick ={toggleProfileDropdown}>
+          <Tooltip message={user?.given_name}>
+            <Image
+              src={user?.picture}
+              className="w-[25px] h-[25px] rounded-full cursor-pointer" 
+            />
+            
           </Tooltip>
+            </span>
+
+          {isProfileOpen && <ProfileDropDown setIsProfileOpen={setIsProfileOpen} />}
           
           <Tooltip message={"Filter"}>
             <MdFilterAlt
-              onClick={toggleDropdown}
+              onClick={toggleFilterDropdown}
               className="text-2xl text-yellow-400 relative inline-block"
             />
           </Tooltip>
 
-          {isOpen && <DropDown setIsOpen={setIsOpen} />}
+          {isFilterOpen && <DropDown setIsFilterOpen={setIsFilterOpen} />}
 
           <Tooltip message={"Card"}>
           <span
