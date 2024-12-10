@@ -3,11 +3,11 @@ import { Button } from ".";
 import { useDispatch } from "react-redux";
 import { filterByCategory } from "../store/addToCardSlice";
 
-const DropDown = ({ setIsFilterOpen }) => {
+const FilterDropDown = ({ setIsFilterOpen }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="origin-top-right absolute top-12 right-6 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex justify-between px-1">
+    <div className="origin-top-right absolute top-12 right-6 mt-2 z-20 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none flex justify-between px-1">
       <IoIosCloseCircleOutline
         onClick={() => setIsFilterOpen(false)}
         className="text-rose-400 text-xl mt-2"
@@ -50,4 +50,4 @@ const DropDown = ({ setIsFilterOpen }) => {
   );
 };
 
-export default DropDown;
+export default FilterDropDown;

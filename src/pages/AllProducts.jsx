@@ -1,8 +1,9 @@
-import React, { useEffect, memo } from 'react';
-import { Card } from '../components';
-import useFetchUrl from '../hooks/useFetchUrl';
+import React, { useEffect, memo, lazy, Suspense } from 'react';
+// import { Card } from '../components';
 import { CardSkeleton } from '../snippets';
 import { useSelector } from 'react-redux';
+import useApiQuery from '../hooks/useApiQuery';
+const Card = lazy(() => import('../components/Card'));
 
 const AllProducts = () => {
 
@@ -10,29 +11,32 @@ const AllProducts = () => {
 
   let searchByCategory = "";
   if(category) searchByCategory= `/category/${category}`
-
-  const { data, loading, error } = useFetchUrl(`${searchByCategory}`);
-
   useEffect(() => {
     window.scroll({ top: 0 })
-  })
+  }, []);
+
+  const { data, isLoading, error } = useApiQuery(`${searchByCategory}`);
 
   if(error) {
     return <h2 className="text-2xl text-rose-500">{error}</h2>
   }
 
-  if(loading) {
-    return <CardSkeleton />
-  }
+  // if(isLoading) {
+  //   return <CardSkeleton />
+  // }
+
 
   return (
     <div className="w-full min-h-screen flex flex-wrap justify-center p-4 gap-3">
-      {data?.map((item) => (
-        <Card
-          key={item.id}
-          data= {item}
-        />
-      ))}
+      <Suspense fallback= {<CardSkeleton /> }>
+        {data?.map((item) => (
+          <Card
+            key={item.id}
+            data= {item}
+          />
+        ))}
+      </Suspense>
+      
     </div>
   )
 }

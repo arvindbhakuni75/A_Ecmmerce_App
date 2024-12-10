@@ -11,11 +11,11 @@ const Card = ({data}) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const cardData = useSelector( state => state.addToCardSlice.cardProducts);
+  const cardData = useSelector(state => state.addToCardSlice.cardProducts);
 
   const handleAddToCard = useCallback(() => {
     if(!(cardData.map(item => item.id).includes(data.id))) {
-      dispatch(addToCard({ data }))
+      dispatch(addToCard({ ...data, quantity: 1 }))
       toast.success('added successfully!')  
     } else {
       toast.error("already added!")
@@ -24,7 +24,7 @@ const Card = ({data}) => {
 
 
   return (
-    <div className="w-[300px] flex flex-col justify-between border border-gray-300 shadow-2xl rounded-lg    p-4 h-[420px] bg-white">
+    <div className="w-[300px] flex flex-col justify-between border border-gray-300 shadow-2xl rounded-lg p-4 h-[420px] bg-white">
       <Link to={`/product/${id}`}>
         <div className="w-full">
           <Image

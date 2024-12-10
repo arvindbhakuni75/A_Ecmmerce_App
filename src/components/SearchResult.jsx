@@ -25,7 +25,6 @@ const SearchResult = () => {
     if(inputSearch.length > 0) {
       const finalResult = data?.filter((items) => items.title.toLowerCase().includes(inputSearch.toLowerCase()) || items.description.toLowerCase().includes(inputSearch.toLowerCase()) )
       setSearchResults(finalResult);
-      console.log("search result ",  finalResult)
     } else {
       setSearchResults(null)
     } 

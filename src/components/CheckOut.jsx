@@ -1,8 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleCheckOut, removeFromCard } from "../store/addToCardSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import trolley from '../assets/emptyTrolley.png';
+import { Button, Image } from "../snippets";
 
 const CheckOut = () => {
   const show = useSelector((state) => state.addToCardSlice.showCheckOut);
@@ -12,11 +13,11 @@ const CheckOut = () => {
 
   const totalAmount = cardItems
     .reduce((accumulator, currentValue) => {
-      return accumulator + currentValue.price;
+      return accumulator + currentValue.price * currentValue.quantity;
     }, 0)
     .toFixed(2);
 
-  const sentToDetailPage = (id) => {
+  const sendToDetailPage = (id) => {
     navigate(`/product/${id}`);
     dispatch(toggleCheckOut(false));
   };
@@ -40,7 +41,7 @@ const CheckOut = () => {
                   Shopping cart
                 </h2>
                 <div className="ml-3 flex h-7 items-center">
-                  <button
+                  <Button
                     onClick={() => dispatch(toggleCheckOut(false))}
                     type="button"
                     className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
@@ -61,21 +62,21 @@ const CheckOut = () => {
                         d="M6 18L18 6M6 6l12 12"
                       />
                     </svg>
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="mt-8">
                 <div className="flow-root">
                   <ul className="my-6 divide-y divide-gray-200">
-                  { (cardItems?.length < 1) && (
+                  { !cardItems?.length && (
                       <div className="flex items-center justify-center">
                         <img src={trolley} alt="trolley" className="w-[250px] h-[250px]" />
                       </div>
                     ) }
-                    {cardItems?.map((item, index) => (
+                    {!!cardItems && cardItems?.map((item, index) => (
                       <li key={index} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md">
-                          <img
+                          <Image
                             src={item.image}
                             className="w-full h-full"
                             alt="product"
@@ -86,7 +87,7 @@ const CheckOut = () => {
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
                                 <span
-                                  onClick={() => sentToDetailPage(item.id)}
+                                  onClick={() => sendToDetailPage(item.id)}
                                   className="cursor-pointer"
                                 >
                                   {item.title.length > 35
@@ -99,9 +100,9 @@ const CheckOut = () => {
                             <p className="mt-1 text-sm text-gray-500">Blue</p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
-                            <p className="text-gray-500">Qty 1</p>
+                            <p className="text-gray-500">Quantity : {item.quantity}</p>
                             <div className="flex">
-                              <button
+                              <Button
                                 onClick={() =>
                                   dispatch(removeFromCard(item.id))
                                 }
@@ -109,7 +110,7 @@ const CheckOut = () => {
                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                               >
                                 Remove
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -128,24 +129,24 @@ const CheckOut = () => {
                 Shipping and taxes calculated at checkout.
               </p>
               <div className="mt-6">
-                <Link
-                  to="/"
-                  className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                <Button
+                  
+                  className="w-full flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                 >
                   Checkout
-                </Link>
+                </Button>
               </div>
               <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                 <p>
                   or{" "}
-                  <button
+                  <Button
                     onClick={() => dispatch(toggleCheckOut(false))}
                     type="button"
                     className="font-medium text-indigo-600 hover:text-indigo-500"
                   >
                     Continue Shopping
                     <span aria-hidden="true"> →</span>
-                  </button>
+                  </Button>
                 </p>
               </div>
             </div>

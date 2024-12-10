@@ -13,7 +13,7 @@ const addToCardSlice = createSlice({
   initialState,
   reducers: {
     addToCard: (state, action) => {
-      state.cardProducts = [...state.cardProducts, action.payload.data];
+      state.cardProducts = [...state.cardProducts, action.payload];
     },
     removeFromCard: (state, action) => {
       state.cardProducts = state.cardProducts.filter(

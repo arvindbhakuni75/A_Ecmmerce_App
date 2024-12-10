@@ -11,7 +11,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const { id } = useParams();
   const dispatch = useDispatch();
-  const cardData = useSelector((state) => state.addToCardSlice.cardProducts)
+  const cardData = useSelector(state => state.addToCardSlice.cardProducts)
 
   useEffect(() => {
     window.scroll({ top: 0 });
@@ -24,7 +24,6 @@ const ProductDetail = () => {
       if (action === "increment" && quantity < 10) {
         setQuantity(quantity + 1);
       }
-
       if (action === "decrement" && quantity > 1) {
         setQuantity(quantity - 1);
       }
@@ -32,13 +31,12 @@ const ProductDetail = () => {
 
   const handleAddToCard = useCallback(() => {
     if(!(cardData.map(item => item.id).includes(data.id))) {
-      dispatch(addToCard({ data }))
+      dispatch(addToCard({ ...data, quantity }))
       toast.success('added successfully!')  
     } else {
       toast.error("already added!")
     } 
-  }, [cardData, data, dispatch]);
-
+  }, [cardData, data, dispatch, quantity]);
 
   const quantityButton = useMemo(() => {
     return  (

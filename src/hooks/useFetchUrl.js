@@ -18,7 +18,6 @@ const useFetchUrl = (url = "") => {
                 setLoading(false)
             }
         }
-
         fetchUrl()
     }, [url])
 
